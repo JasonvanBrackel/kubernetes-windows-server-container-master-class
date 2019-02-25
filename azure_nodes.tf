@@ -196,16 +196,6 @@ resource "azurerm_virtual_machine" "worker-machine" {
   delete_os_disk_on_termination    = true
   delete_data_disks_on_termination = true
 
-  provisioner "local-exec" {
-    command = "Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All"
-    interpreter = ["Powershell", "-Command"]
-  }
-
-
-  provisioner "local-exec" {
-    command = "${rancher2_cluster.windows-demo.cluster_registration_token.0.windows_node_command}"
-    interpreter = ["Powershell", "-Command"]
-  }
 
   storage_image_reference {
     publisher = "MicrosoftWindowsServer"
@@ -233,9 +223,48 @@ resource "azurerm_virtual_machine" "worker-machine" {
     computer_name  = "worker-${count.index}"
     admin_username = "${var.administrator_username}"
     admin_password = "${var.administrator_password}"
+    custom_data    = "${file("./azure-boot/winrm.ps1")}"
   }
 
   os_profile_windows_config {
+    provision_vm_agent = true
+    winrm = {
+      protocol = "http"
+    }
 
+    # Auto-Login's required to configure WinRM
+    additional_unattend_config {
+      pass         = "oobeSystem"
+      component    = "Microsoft-Windows-Shell-Setup"
+      setting_name = "AutoLogon"
+      content      = "<AutoLogon><Password><Value>${var.administrator_username}</Value></Password><Enabled>true</Enabled><LogonCount>1</LogonCount><Username>${var.administrator_password}</Username></AutoLogon>"
+    }
+
+    # Unattend config is to enable basic auth in WinRM, required for the provisioner stage.
+    additional_unattend_config {
+      pass         = "oobeSystem"
+      component    = "Microsoft-Windows-Shell-Setup"
+      setting_name = "FirstLogonCommands"
+      content      = "${file("./azure-boot/FirstLogonCommands.xml")}"
+    }
   }
-}
+
+  connection {
+    type     = "winrm"
+    port     = 5985
+    https    = false
+    timeout  = "2m"
+    user     = "${var.administrator_username}"
+    password = "${var.administrator_password}"
+  }
+  provisioner "file" {
+    source      = "azure-boot/install-hyperv.ps1"
+    destination = "c:/terraform/install-hyperv.ps1"
+  }  
+
+  provisioner "remote-exec" {
+    inline = [
+      "${rancher2_cluster.windows-demo.cluster_registration_token.0.windows_node_command}"
+    ]
+  }
+} 

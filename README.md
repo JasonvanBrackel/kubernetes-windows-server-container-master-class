@@ -8,6 +8,8 @@ This module is a working in progress.  As of the time of this presentation the R
 
 In addtion at the time of this presentation the most recently version of Kubernetes is 1.13 and the Windows Server Container support is in beta.  It should be GA by 1.14 per sig-windows
 
+This is not a production-ready setup.  It's setup so that the remote-exec provisioner can use an insecure method for executing WinRM commands. This should be cleaned up after provisioning so that that the machine is secure after provisioning.
+
 ## Prerequisites
 
 ### Terraform installed
