@@ -197,7 +197,8 @@ resource "azurerm_virtual_machine" "worker-machine" {
   delete_data_disks_on_termination = true
 
   provisioner "local-exec" {
-    command = "${rancher2_cluster.windows-demo.cluster_registration_token.windows_node_command}"
+    command = "${rancher2_cluster.windows-demo.cluster_registration_token.0.windows_node_command}"
+    interpreter = ["C:/WINDOWS/System32/cmd.exe", "/c"]
   }
 
   storage_image_reference {
@@ -229,6 +230,6 @@ resource "azurerm_virtual_machine" "worker-machine" {
   }
 
   os_profile_windows_config {
-    
+
   }
 }
