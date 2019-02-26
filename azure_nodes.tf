@@ -237,7 +237,7 @@ resource "azurerm_virtual_machine" "worker-machine" {
       pass         = "oobeSystem"
       component    = "Microsoft-Windows-Shell-Setup"
       setting_name = "AutoLogon"
-      content      = "<AutoLogon><Password><Value>${var.administrator_username}</Value></Password><Enabled>true</Enabled><LogonCount>1</LogonCount><Username>${var.administrator_password}</Username></AutoLogon>"
+      content      = "<AutoLogon><Password><Value>${var.administrator_password}</Value></Password><Enabled>true</Enabled><LogonCount>1</LogonCount><Username>${var.administrator_username}</Username></AutoLogon>"
     }
 
     # Unattend config is to enable basic auth in WinRM, required for the provisioner stage.
@@ -253,7 +253,6 @@ resource "azurerm_virtual_machine" "worker-machine" {
     type     = "winrm"
     port     = 5985
     https    = false
-    timeout  = "2m"
     user     = "${var.administrator_username}"
     password = "${var.administrator_password}"
   }

@@ -10,7 +10,9 @@ In addtion at the time of this presentation the most recently version of Kuberne
 
 This is not a production-ready setup.  It's setup so that the remote-exec provisioner can use an insecure method for executing WinRM commands. This should be cleaned up after provisioning so that that the machine is secure after provisioning.
 
-### Working in Windows
+WinRM is flaky at best from Linux and MacOS so Windows is recommended.
+
+### Building the Terraform Provider for Rancher 2 in Windows
 
 The make file will not build in Windows.  This was how I got a working terraform provider.  
 
