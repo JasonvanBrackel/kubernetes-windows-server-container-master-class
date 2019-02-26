@@ -10,6 +10,18 @@ In addtion at the time of this presentation the most recently version of Kuberne
 
 This is not a production-ready setup.  It's setup so that the remote-exec provisioner can use an insecure method for executing WinRM commands. This should be cleaned up after provisioning so that that the machine is secure after provisioning.
 
+### Working in Windows
+
+The make file will not build in Windows.  This was how I got a working terraform provider.  
+
+I already had golang 11 installed via chocolatey.
+
+```powershell
+go get -u github.com/rancher/terraform-provider-rancher2/rancher2
+go build github.com/rancher/terraform-provider-rancher2
+cp $env:GOPATH\src\github.com\rancher\terraform-provider-rancher2\terraform-provider-rancher2.exe .\.terraform\plugins\windows_amd64\
+```
+
 ## Prerequisites
 
 ### Terraform installed
