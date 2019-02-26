@@ -257,10 +257,6 @@ resource "azurerm_virtual_machine" "worker-machine" {
     user     = "${var.administrator_username}"
     password = "${var.administrator_password}"
   }
-  provisioner "file" {
-    source      = "azure-boot/install-hyperv.ps1"
-    destination = "c:/terraform/install-hyperv.ps1"
-  }  
 
   provisioner "remote-exec" {
     inline = [

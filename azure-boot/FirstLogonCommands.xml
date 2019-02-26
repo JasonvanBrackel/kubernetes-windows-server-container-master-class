@@ -14,10 +14,4 @@
         <Description>Execute the WinRM enabling script</Description>
         <Order>13</Order>
     </SynchronousCommand>
-    <SynchronousCommand>
-        <CommandLine>powershell.exe -sta -ExecutionPolicy Unrestricted -file C:\terraform\install-hyperv.ps1</CommandLine>
-        <Description>Install Hyper-V</Description>
-        <Order>14</Order>
-    </SynchronousCommand>
-    
 </FirstLogonCommands>

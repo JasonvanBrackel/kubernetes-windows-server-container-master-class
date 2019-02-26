@@ -59,7 +59,6 @@ variable "rancher_api_token" {
 
 }
 
-
 variable "control_plane_count" {
   type = "string"
   description = "Desired quantity of control plane nodes"
@@ -86,6 +85,3 @@ variable "windows_count" {
 
   default = 1
 }
-
-
-
