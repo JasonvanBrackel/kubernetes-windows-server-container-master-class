@@ -1,10 +1,12 @@
 # Windows Server Master Class Demo Environment
 
-This module can be used to standup a Kubernetes Cluster on Azure IaaS (not AKS), with Windows Server Container Nodes.
+This module can be used to standup a Kubernetes Cluster on Azure IaaS (not AKS), with Windows Server Container Nodes.  To get the video, register [here](https://info.rancher.com/running-windows-server-containers).
 
 ## Warning
 
 This module is a working in progress.  As of the time of this presentation the Rancher support for Windows Server Containers is experimental and only supports Windows Server 1803 with Flannel CNI on host-gw mode for the Windows Nodes.  The Linux nodes will run Flannel CNI on vxlan mode.
+
+To use this module seemlessly in Azure, your VMs need to support VM in VM.  Azure only supports this on sufficiently large VMs.  Otherwise you'll need some manual intervention.
 
 In addtion at the time of this presentation the most recently version of Kubernetes is 1.13 and the Windows Server Container support is in beta.  It should be GA by 1.14 per sig-windows
 
